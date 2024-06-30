@@ -33,7 +33,7 @@ func tick() -> void:
 		_current_state._tick()
 
 
-## Goes through the process of changing the current state to a new state.
+## Goes through the process of changing the current state to a new state.[br]
 ## Calls 'on exit' function of the old state before changing to the new state.
 ## 'on enter' function is also called.
 func set_state(state: State) -> void:
@@ -45,9 +45,9 @@ func set_state(state: State) -> void:
 	
 	_current_state = state
 	
-	_current_transitions = _transitions.get(_current_state._get_class(), _empty_transitions)
-	
-	_current_state._on_enter()
+	if _current_state != null:
+		_current_transitions = _transitions.get(_current_state._get_class(), _empty_transitions)
+		_current_state._on_enter()
 
 
 ## Adds a new transition to the state machine that links a 'from' state to a 'to' state.

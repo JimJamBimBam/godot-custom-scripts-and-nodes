@@ -11,6 +11,9 @@ config_version=5
 [application]
 
 config/name="Custom Scripts & Nodes"
-run/main_scene="res://Scenes/TestScene.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/gdUnit4/plugin.cfg", "res://addons/state_machine/plugin.cfg")
