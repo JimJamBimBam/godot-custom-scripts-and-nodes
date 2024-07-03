@@ -11,7 +11,7 @@ var _transitions: Dictionary = {}
 ## An array of all the available transitions in the state machine that link from the current state
 ## to any other number of states.
 var _current_transitions: Array[Transition] = []
-## An array of all transitions that don;t need to be in a particular state to transition.
+## An array of all transitions that don't need to be in a particular state to transition.
 var _any_transitions: Array[Transition] = []
 ## Default array with no transitions. Not for 
 static var _empty_transitions: Array[Transition] = []
@@ -53,10 +53,11 @@ func set_state(state: State) -> void:
 ## Adds a new transition to the state machine that links a 'from' state to a 'to' state.
 ## A Callable that returns a boolean value is required.
 ## Callable return types can't be picked up in the editor
-## but an error will be called should a Callable not return a boolean.
+## but an error will be called should Callable.call() not return a boolean.
 func add_transition(from: State, to: State, predicate: Callable) -> void:
 	assert(predicate.call() is bool, CALLABLE_RETURN_TYPE_NOT_BOOL_ERROR)
 	
+	# Add a new Array of type Transition if the 'from' state has not been added before.
 	if !_transitions.has(from._get_class()):
 		var transitions: Array[Transition] = []
 		_transitions[from._get_class()] = transitions
