@@ -2,6 +2,22 @@ class_name StateMachine extends Node
 
 const CALLABLE_RETURN_TYPE_NOT_BOOL_ERROR: String = "ERROR: predicate must be a Callable that returns a boolean value. No exceptions."
 
+var current_state: State:
+	get:
+		return _current_state
+
+var transitions: Dictionary:
+	get:
+		return _transitions
+
+var current_transitions: Array[Transition]:
+	get:
+		return _current_transitions
+
+var any_transitions: Array[Transition]:
+	get:
+		return _any_transitions
+
 var _current_state: State
 
 ## Collection of all the transitions in the state machine.
@@ -13,7 +29,7 @@ var _transitions: Dictionary = {}
 var _current_transitions: Array[Transition] = []
 ## An array of all transitions that don't need to be in a particular state to transition.
 var _any_transitions: Array[Transition] = []
-## Default array with no transitions. Not for 
+## Default array with no transitions. Used to retrieve a default array during set_state().
 static var _empty_transitions: Array[Transition] = []
 
 func _process(delta: float) -> void:
@@ -25,7 +41,7 @@ func _process(delta: float) -> void:
 ## if the state machine needs to, it will transition to other states and
 ## set the current state to the new state here as well.
 func tick() -> void:
-	var transition = get_transition()
+	var transition = _get_transition()
 	if transition != null:
 		set_state(transition.to)
 		
@@ -96,7 +112,7 @@ class Transition:
 ## Returns the first Transition that meets the boolean condition.
 ## Transitions that can go from any state are searched first
 ## before transitions that need to be in a certain state before they can move to the new state.
-func get_transition() -> Transition:
+func _get_transition() -> Transition:
 	for transition in _any_transitions:
 		if transition.condition.call():
 			return transition
