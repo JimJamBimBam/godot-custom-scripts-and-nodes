@@ -14,6 +14,10 @@ config/name="Custom Scripts & Nodes"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+GlobalMessenger="*res://addons/global_messenger/nodes/global_messenger.gd"
+
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/gdUnit4/plugin.cfg", "res://addons/state_machine/plugin.cfg")
+enabled=PackedStringArray("res://addons/gdUnit4/plugin.cfg", "res://addons/global_messenger/plugin.cfg", "res://addons/state_machine/plugin.cfg")
