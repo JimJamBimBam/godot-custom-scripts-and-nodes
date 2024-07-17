@@ -44,7 +44,7 @@ func _on_update_requested():
 func _populate_icons():
 	icon_window.clear()
 
-	var godot_theme = EditorInterface.get_base_control().theme
+	var godot_theme = EditorInterface.get_editor_theme()
 
 	var list = Array(godot_theme.get_icon_list('EditorIcons'))
 	list.sort() # alphabetically
