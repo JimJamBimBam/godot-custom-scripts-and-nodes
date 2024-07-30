@@ -3,7 +3,6 @@ class_name RemoveableLabel extends Control
 
 signal remove_pressed(to_remove_text: String)
 
-@onready var label: Label = %label
 @onready var _label: Label = %label
 @onready var _remove: Button = %remove
 
