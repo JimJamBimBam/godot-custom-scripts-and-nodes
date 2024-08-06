@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://i2p6v7cukeyk"]
+
+[ext_resource type="Script" path="res://addons/behaviour_tree/test/unit_test_only_one_action_behaviour_tree_scene.gd" id="1_fpwyn"]
+[ext_resource type="Script" path="res://addons/behaviour_tree/nodes/behaviour_tree.gd" id="2_nrnnc"]
+[ext_resource type="Script" path="res://addons/behaviour_tree/blackboard.gd" id="2_ym5e5"]
+[ext_resource type="Script" path="res://addons/behaviour_tree/test/nodes/actions/mock_action.gd" id="3_x5uve"]
+
+[node name="UnitTestOnlyOneActionBehaviourTreeScene" type="Node"]
+script = ExtResource("1_fpwyn")
+
+[node name="Blackboard" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2_ym5e5")
+
+[node name="BehaviourTree" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2_nrnnc")
+
+[node name="MockAction" type="Node" parent="BehaviourTree"]
+unique_name_in_owner = true
+script = ExtResource("3_x5uve")
+running_frame_count = 3

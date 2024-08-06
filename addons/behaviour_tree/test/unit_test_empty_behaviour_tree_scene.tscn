@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://b6rbogy73n05l"]
+
+[ext_resource type="Script" path="res://addons/behaviour_tree/test/unit_test_empty_behaviour_tree_scene.gd" id="1_tnue5"]
+[ext_resource type="Script" path="res://addons/behaviour_tree/nodes/behaviour_tree.gd" id="2_3niji"]
+
+[node name="UnitTestEmptyBehaviourTreeScene" type="Node"]
+script = ExtResource("1_tnue5")
+
+[node name="EmptyBehaviourTree" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2_3niji")

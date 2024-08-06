@@ -20,4 +20,4 @@ GlobalMessenger="*res://addons/global_messenger/nodes/global_messenger.gd"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/editor_icon_previewer/plugin.cfg", "res://addons/gdUnit4/plugin.cfg", "res://addons/global_messenger/plugin.cfg", "res://addons/state_machine/plugin.cfg")
+enabled=PackedStringArray("res://addons/behaviour_tree/plugin.cfg", "res://addons/editor_icon_previewer/plugin.cfg", "res://addons/gdUnit4/plugin.cfg", "res://addons/state_machine/plugin.cfg")
