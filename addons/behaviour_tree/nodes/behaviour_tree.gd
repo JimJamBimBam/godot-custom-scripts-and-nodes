@@ -70,9 +70,8 @@ var _internal_blackboard: Blackboard
 ## This is the result of the behaviour tree after walking through it's children.
 var status: int = -1
 ## Number of frame ticks since the last reset due to tick_rate being reached.
-## Used to determine when the behaviour tree can tick over.
+## Used to determine when the behaviour tree can perform tick() on it's child.
 var last_tick: int = 0
-var child: BTNode
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -103,6 +102,18 @@ func tick() -> int:
 	# Null checks
 	if actor == null or self.get_child_count() == 0:
 		status = FAILURE
+		return status
+	
+	var child = get_child(0) as BTNode
+	
+	if status != RUNNING:
+		child.before_run(actor, blackboard)
+	
+	status = child.tick(actor, blackboard)
+	
+	## Clear the running action if nothing is happening.
+	if status != RUNNING:
+		child.after_run(actor, blackboard)
 	
 	return status
 
