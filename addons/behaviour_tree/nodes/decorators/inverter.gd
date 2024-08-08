@@ -13,8 +13,8 @@ func tick(actor: Node, blackboard: Blackboard) -> int:
 	var response: int = child.tick(actor, blackboard)
 	
 	if child is ConditionLeaf:
-		blackboard.set_value("last_condition", child, str(actor.get_instance_id()))
-		blackboard.set_value("last_condition_status", response, str(actor.get_instance_id()))
+		blackboard.set_value(LAST_CONDITION, child, str(actor.get_instance_id()))
+		blackboard.set_value(LAST_CONDITION_STATUS, response, str(actor.get_instance_id()))
 	
 	match response:
 		SUCCESS:
@@ -26,7 +26,7 @@ func tick(actor: Node, blackboard: Blackboard) -> int:
 		RUNNING:
 			running_child = child
 			if child is ActionLeaf:
-				blackboard.set_value('running_action', child, str(actor.get_instance_id()))
+				blackboard.set_value(RUNNING_ACTION, child, str(actor.get_instance_id()))
 			return RUNNING
 		_:
 			push_error("This should be unreachable")

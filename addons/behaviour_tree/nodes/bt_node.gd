@@ -3,6 +3,12 @@ class_name BTNode extends Node
 ## The base class for every node that makes up a behaviour tree.
 ## Will return 'SUCCESS', 'FAILURE' or 'RUNNING' when ticked.
 
+## Constants used as keys for blackboard.
+## Unchangeable values should prevent mistakes when setting data in blackboard.
+const RUNNING_ACTION: String = "running_action"
+const LAST_CONDITION: String = "last_condition"
+const LAST_CONDITION_STATUS: String = "last_condition_status"
+
 ## Each BTNode must return one of these for th status.
 enum { SUCCESS, FAILURE, RUNNING }
 
