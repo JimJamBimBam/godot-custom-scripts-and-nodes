@@ -6,6 +6,9 @@
 export.cfg
 export_presets.cfg
 
+# GdUnit-specific ignores
+GdUnitRunner.cfg
+
 # Imported translations (automatically generated from CSV files)
 *.translation
 
