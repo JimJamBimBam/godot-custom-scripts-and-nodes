@@ -3,18 +3,27 @@ class_name Decorator extends BTNode
 ## Decorator nodes are used to transform the result received by its child.
 ## Must only have one child.
 
-## TODO: Put any configuration warnings here, such as:
-## - Decorators only having one child.
+var running_child: BTNode = null
+
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings: PackedStringArray = super._get_configuration_warnings()
+	
+	if get_child_count() != 1:
+		warnings.append("Decorator should have exactly one child node.")
+	
+	return warnings
+
 
 func interrupt(actor: Node, blackboard: Blackboard) -> void:
-	pass
+	if running_child != null:
+		running_child.interrupt(actor, blackboard)
+		running_child = null
 
 
 func after_run(actor: Node, blackboard: Blackboard) -> void:
-	pass
+	running_child = null
 
 
-# TODO: Implement get_class_name() method.
 func get_class_name() -> Array[StringName]:
 	var classes := super()
 	classes.push_back(&"Decorator")
