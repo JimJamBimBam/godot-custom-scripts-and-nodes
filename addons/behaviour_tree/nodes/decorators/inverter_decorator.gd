@@ -1,4 +1,4 @@
-class_name Inverter extends Decorator
+class_name InverterDecorator extends Decorator
 
 ## An inverter will return 'FAILURE' when it's child returns 'SUCCESS' or,
 ## 'SUCCESS' if the child returns 'FAILURE'.
