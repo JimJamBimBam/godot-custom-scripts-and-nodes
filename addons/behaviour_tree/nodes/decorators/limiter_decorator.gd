@@ -44,8 +44,9 @@ func tick(actor: Node, blackboard: Blackboard) -> int:
 
 func before_run(actor: Node, blackboard: Blackboard) -> void:
 	blackboard.set_value(cache_key, 0, str(actor.get_instance_id()))
-	var child = get_child(0) as BTNode
-	child.before_run(actor, blackboard)
+	if get_child_count() > 0:
+		var child = get_child(0) as BTNode
+		child.before_run(actor, blackboard)
 
 
 func get_class_name() -> Array[StringName]:
