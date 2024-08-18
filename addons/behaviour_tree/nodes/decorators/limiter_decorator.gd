@@ -16,6 +16,9 @@ func _get_configuration_warnings() -> PackedStringArray:
 
 
 func tick(actor: Node, blackboard: Blackboard) -> int:
+	if not get_child_count() == 1:
+		return FAILURE
+	
 	var child = get_child(0) as BTNode
 	
 	var current_count: int = blackboard.get_value(cache_key, 0, str(actor.get_instance_id()))
