@@ -1,6 +1,7 @@
+@tool
 class_name BehaviourTree extends Node
 
-enum { SUCESS, FAILURE, RUNNING }
+enum { SUCCESS, FAILURE, RUNNING }
 
 enum ProcessThread { IDLE, PHYSICS }
 
@@ -16,7 +17,7 @@ signal tree_disabled
 		if value == true:
 			tree_enabled.emit()
 		else:
-			# Call an interrupt method here
+			interrupt()
 			tree_disabled.emit()
 	get:
 		return enabled
@@ -60,10 +61,7 @@ signal tree_disabled
 		if actor == null:
 			actor = get_parent()
 		if Engine.is_editor_hint():
-			pass
-			# TODO: Override update_configuration_warnings() method
-			# and provide own way of looking for missing, required nodes.
-			# update_configuration_warnings()
+			update_configuration_warnings()
 
 ## Reference to the internal blackboard incase one is not supplied.
 var _internal_blackboard: Blackboard
@@ -75,8 +73,23 @@ var last_tick: int = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	if not process_thread:
+		process_thread = ProcessThread.PHYSICS
+	
 	if actor == null:
 		actor = get_parent()
+	
+	if not blackboard:
+		self.blackboard = null
+	
+	set_physics_process(enabled and process_thread == ProcessThread.PHYSICS)
+	set_process(enabled and process_thread == ProcessThread.IDLE)
+	
+	if Engine.is_editor_hint():
+		update_configuration_warnings.call_deferred()
+	
+	# Randomize at what frames tick() will happen to avoid stutters
+	last_tick = randi_range(0, tick_rate - 1)
 
 
 func _physics_process(delta: float) -> void:
@@ -101,8 +114,7 @@ func _process_internally() -> void:
 func tick() -> int:
 	# Null checks
 	if actor == null or self.get_child_count() == 0:
-		status = FAILURE
-		return status
+		return FAILURE
 	
 	var child = get_child(0) as BTNode
 	
@@ -113,9 +125,67 @@ func tick() -> int:
 	
 	## Clear the running action if nothing is happening.
 	if status != RUNNING:
+		blackboard.set_value(BTNode.RUNNING_ACTION, null, str(actor.get_instance_id()))
 		child.after_run(actor, blackboard)
 	
 	return status
+
+
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings: PackedStringArray = []
+	
+	if actor == null:
+		warnings.append("Configure the target node for tree.")
+	
+	if get_children().any(func(x): return not (x is BTNode)):
+		warnings.append("All children of this node should inherit from BTNode class.")
+		
+	if get_child_count() != 1:
+		warnings.append("BhaviourTree should have exactly one child node.")
+		
+	return warnings
+
+
+## Returns the currently running action
+func get_running_action() -> ActionLeaf:
+	return blackboard.get_value(BTNode.RUNNING_ACTION, null, str(actor.get_instance_id()))
+
+
+## Returns the last condition that was executed
+func get_last_condition() -> ConditionLeaf:
+	return blackboard.get_value(BTNode.RUNNING_ACTION, null, str(actor.get_instance_id()))
+
+
+## Returns the status of the last executed condition
+func get_last_condition_status() -> String:
+	if blackboard.has_value(BTNode.LAST_CONDITION_STATUS, str(actor.get_instance_id())):
+		var status = blackboard.get_value(
+			BTNode.LAST_CONDITION_STATUS, null, str(actor.get_instance_id())
+		)
+		if status == SUCCESS:
+			return "SUCCESS"
+		elif status == FAILURE:
+			return "FAILURE"
+		else:
+			return "RUNNING"
+	return ""
+
+
+## interrupts this tree if anything was running
+func interrupt() -> void:
+	if self.get_child_count() != 0:
+		var first_child = self.get_child(0) as BTNode
+		first_child.interrupt(actor, blackboard)
+
+
+## Enables this tree.
+func enable() -> void:
+	self.enabled = true
+
+
+## Disables this tree.
+func disable() -> void:
+	self.enabled = false
 
 
 func get_class_name() -> Array[StringName]:
