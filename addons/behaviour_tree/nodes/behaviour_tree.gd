@@ -102,6 +102,9 @@ func _process(delta: float) -> void:
 
 
 func _process_internally() -> void:
+	if Engine.is_editor_hint():
+		return
+	
 	if last_tick < tick_rate - 1:
 		last_tick += 1
 		return
