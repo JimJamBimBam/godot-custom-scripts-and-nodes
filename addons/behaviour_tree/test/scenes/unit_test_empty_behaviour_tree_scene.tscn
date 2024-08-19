@@ -6,6 +6,8 @@
 [node name="UnitTestEmptyBehaviourTreeScene" type="Node"]
 script = ExtResource("1_tnue5")
 
-[node name="EmptyBehaviourTree" type="Node" parent="."]
+[node name="EmptyBehaviourTree" type="Node" parent="." node_paths=PackedStringArray("blackboard", "actor")]
 unique_name_in_owner = true
 script = ExtResource("2_3niji")
+blackboard = NodePath("@Node@17551")
+actor = NodePath("..")

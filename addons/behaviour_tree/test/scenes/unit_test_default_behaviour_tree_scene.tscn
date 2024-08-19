@@ -12,9 +12,11 @@ script = ExtResource("1_k2elg")
 unique_name_in_owner = true
 script = ExtResource("2_hd8xb")
 
-[node name="BehaviourTree" type="Node" parent="."]
+[node name="BehaviourTree" type="Node" parent="." node_paths=PackedStringArray("blackboard", "actor")]
 unique_name_in_owner = true
 script = ExtResource("3_4dv2y")
+blackboard = NodePath("@Node@17552")
+actor = NodePath("..")
 
 [node name="BTNode" type="Node" parent="BehaviourTree"]
 unique_name_in_owner = true
