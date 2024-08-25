@@ -17,6 +17,7 @@ var actor: Node2D
 var blackboard: Blackboard
 var runner: GdUnitSceneRunner
 
+# TODO: Refactor tests so that time is not so unpredictable when performing the tests.
 
 func before_test() -> void:
 	behaviour_tree = auto_free(load(__behaviour_tree).new())
