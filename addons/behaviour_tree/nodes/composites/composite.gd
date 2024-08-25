@@ -4,20 +4,28 @@ class_name Composite extends BTNode
 
 var running_child: BTNode = null
 
-# TODO: Implement warnings, such as:
-# - Composite node should have at least two nodes as children otherwise it is useless.
 
-# TODO: Implement base logic for interrupt() method.
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings: PackedStringArray = super._get_configuration_warnings()
+	
+	if get_children().filter(func(x): return x is BTNode).size() < 2:
+		warnings.append(
+			"Composite node should have at least two children. Otherwise it is useless."
+		)
+	
+	return warnings
+
+
 func interrupt(actor: Node, blackboard: Blackboard) -> void:
-	pass
+	if running_child != null:
+		running_child.interrupt(actor, blackboard)
+		running_child = null
 
 
-# TODO: Implement base logic for after_run() method.
 func after_run(actor: Node, blackboard: Blackboard) -> void:
-	pass
+	running_child = null
 
 
-# TODO: Implement get_class_name() method.
 func get_class_name() -> Array[StringName]:
 	var classes := super()
 	classes.push_back(&"Composite")
