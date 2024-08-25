@@ -117,7 +117,8 @@ func _process_internally() -> void:
 func tick() -> int:
 	# Null checks
 	if actor == null or self.get_child_count() == 0:
-		return FAILURE
+		status = FAILURE
+		return status
 	
 	var child = get_child(0) as BTNode
 	
