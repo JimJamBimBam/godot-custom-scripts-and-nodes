@@ -10,6 +10,7 @@ class_name MockAction extends ActionLeaf
 
 signal started_running(actor, blackboard)
 signal stopped_running(actor, blackoard)
+signal ticked(actor, blackboard)
 signal interrupted(actor, blackboard)
 
 ## The amount of frames that have ticked over in the tick() method,
@@ -22,7 +23,8 @@ func before_run(actor: Node, blackboard: Blackboard) -> void:
 	started_running.emit(actor, blackboard)
 
 
-func tick(_actor: Node, _blackboard: Blackboard) -> int:
+func tick(actor: Node, blackboard: Blackboard) -> int:
+	ticked.emit(actor, blackboard)
 	if tick_count < running_frame_count:
 		tick_count += 1
 		return RUNNING
