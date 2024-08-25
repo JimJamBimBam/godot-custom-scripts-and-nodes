@@ -1,5 +1,7 @@
-@tool
 class_name BehaviourTree extends Node
+
+# TODO: Refactor BehaviourTree so that it either keeps track of 'delta time' itself,
+# or sets the value in the blackboard for other nodes to keep track of.
 
 enum { SUCCESS, FAILURE, RUNNING }
 
